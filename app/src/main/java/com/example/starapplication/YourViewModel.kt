@@ -8,11 +8,24 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class YourViewModel : ViewModel() {
-    private val _response = MutableLiveData<Response<Responses>>()
-    val response: LiveData<Response<Responses>> get() = _response
-
     private val _adapterData = MutableLiveData<List<ResultsItem>>()
     val adapterData: LiveData<List<ResultsItem>> get() = _adapterData
 
+    fun fetchData() {
+        val service = ApiConfig.getService()
+        val call = service.getResponse()
 
+        call.enqueue(object : Callback<Responses> {
+            override fun onResponse(call: Call<Responses>, response: Response<Responses>) {
+                if (response.isSuccessful) {
+                    val data = response.body()?.results
+                    _adapterData.value = data as List<ResultsItem>?
+                }
+            }
+
+            override fun onFailure(call: Call<Responses>, t: Throwable) {
+                // Handle the failure here
+            }
+        })
+    }
 }
