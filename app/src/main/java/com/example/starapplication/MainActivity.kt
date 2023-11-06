@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        adapter = Adapter()
+        recyclerView.adapter = adapter
+
         // Fetch data from the API and populate the RecyclerView
         fetchData()
     }
@@ -32,8 +35,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Responses>, response: Response<Responses>) {
                 if (response.isSuccessful) {
                     val data = response.body()?.results ?: emptyList()
-                    adapter = Adapter(data as List<ResultsItem>)
-                    recyclerView.adapter = adapter
+                    adapter.submitList(data)
                 } else {
                     Toast.makeText(this@MainActivity, "Failed to load data", Toast.LENGTH_SHORT).show()
                 }

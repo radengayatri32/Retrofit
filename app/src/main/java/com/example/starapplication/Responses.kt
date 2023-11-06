@@ -1,24 +1,29 @@
 package com.example.starapplication
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import com.example.starapplication.Responses
+import com.example.starapplication.ResultsItem
 
+
+@Parcelize
 data class Responses(
-
 	@field:SerializedName("next")
 	val next: String? = null,
 
 	@field:SerializedName("previous")
-	val previous: Any? = null,
+	val previous: String? = null,
 
 	@field:SerializedName("count")
 	val count: Int? = null,
 
 	@field:SerializedName("results")
 	val results: List<ResultsItem?>? = null
-)
+) : Parcelable
 
+@Parcelize
 data class ResultsItem(
-
 	@field:SerializedName("films")
 	val films: List<String?>? = null,
 
@@ -56,7 +61,7 @@ data class ResultsItem(
 	val eyeColor: String? = null,
 
 	@field:SerializedName("species")
-	val species: List<Any?>? = null,
+	val species: List<String?>? = null,
 
 	@field:SerializedName("starships")
 	val starships: List<String?>? = null,
@@ -66,4 +71,4 @@ data class ResultsItem(
 
 	@field:SerializedName("height")
 	val height: String? = null
-)
+) : Parcelable

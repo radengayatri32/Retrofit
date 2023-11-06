@@ -4,11 +4,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.starapplication.Responses
+import com.example.starapplication.ResultsItem
 
-class Adapter (val data: List<ResultsItem>): RecyclerView.Adapter<Adapter.MyViewHolder>() {
-    class MyViewHolder (view: View): RecyclerView.ViewHolder(view){
+
+class Adapter : ListAdapter<ResultsItem, Adapter.MyViewHolder>(DIFF_CALLBACK) {
+
+    // Tetapkan DIFF_CALLBACK
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ResultsItem>() {
+            override fun areItemsTheSame(oldItem: ResultsItem, newItem: ResultsItem): Boolean {
+                return oldItem.name == newItem.name
+            }
+
+            override fun areContentsTheSame(oldItem: ResultsItem, newItem: ResultsItem): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+
+    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.item_name)
         val gender = view.findViewById<TextView>(R.id.item_gender)
         val birth_year = view.findViewById<TextView>(R.id.item_birth_year)
@@ -22,22 +40,13 @@ class Adapter (val data: List<ResultsItem>): RecyclerView.Adapter<Adapter.MyView
         return MyViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        if (data != null){
-            return data.size
-        }
-        return 0
-    }
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.name.text = data?.get(position)?.name
-        holder.gender.text = data?.get(position)?.gender
-        holder.birth_year.text = data?.get(position)?.birthYear
-        holder.skin_color.text = data?.get(position)?.skinColor
-        holder.eye_color.text = data?.get(position)?.eyeColor
-        holder.height.text = data?.get(position)?.height
-
-
-        }
+        val item = getItem(position)
+        holder.name.text = item.name
+        holder.gender.text = item.gender
+        holder.birth_year.text = item.birthYear
+        holder.skin_color.text = item.skinColor
+        holder.eye_color.text = item.eyeColor
+        holder.height.text = item.height
     }
-
+}
