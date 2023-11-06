@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.starapplication.Responses
 import com.example.starapplication.ResultsItem
+import com.example.starapplication.databinding.ItemCharacterBinding
 
 
 class Adapter : ListAdapter<ResultsItem, Adapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -26,27 +27,28 @@ class Adapter : ListAdapter<ResultsItem, Adapter.MyViewHolder>(DIFF_CALLBACK) {
         }
     }
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name = view.findViewById<TextView>(R.id.item_name)
-        val gender = view.findViewById<TextView>(R.id.item_gender)
-        val birth_year = view.findViewById<TextView>(R.id.item_birth_year)
-        val skin_color = view.findViewById<TextView>(R.id.item_skin_color)
-        val eye_color = view.findViewById<TextView>(R.id.item_eye_color)
-        val height = view.findViewById<TextView>(R.id.item_height)
+    class MyViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
+        // Access views through binding
+        val name: TextView = binding.itemName
+        val gender: TextView = binding.itemGender
+        val birthYear: TextView = binding.itemBirthYear
+        val skinColor: TextView = binding.itemSkinColor
+        val eyeColor: TextView = binding.itemEyeColor
+        val height: TextView = binding.itemHeight
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
-        return MyViewHolder(view)
+        val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         holder.name.text = item.name
         holder.gender.text = item.gender
-        holder.birth_year.text = item.birthYear
-        holder.skin_color.text = item.skinColor
-        holder.eye_color.text = item.eyeColor
+        holder.birthYear.text = item.birthYear
+        holder.skinColor.text = item.skinColor
+        holder.eyeColor.text = item.eyeColor
         holder.height.text = item.height
     }
 }
