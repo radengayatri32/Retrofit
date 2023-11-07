@@ -25,13 +25,13 @@ class YourViewModel : ViewModel() {
                         _adapterData.value = emptyList()
                     }
                 } else {
-                    _adapterData.value = emptyList() // Atur LiveData ke daftar kosong jika respons tidak berhasil
+                    _adapterData.value = emptyList()
                 }
             }
 
             override fun onFailure(call: Call<Responses>, t: Throwable) {
                 // Handle the failure here
-                _adapterData.value = emptyList() // Atur LiveData ke daftar kosong jika ada kesalahan
+                _adapterData.value = emptyList()
             }
         })
     }
