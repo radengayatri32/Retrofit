@@ -19,13 +19,24 @@ class YourViewModel : ViewModel() {
             override fun onResponse(call: Call<Responses>, response: Response<Responses>) {
                 if (response.isSuccessful) {
                     val data = response.body()?.results
-                    _adapterData.value = data as List<ResultsItem>?
+                    if (data != null) {
+                        _adapterData.value = data as List<ResultsItem>?
+                    } else {
+                        _adapterData.value = emptyList()
+                    }
+                } else {
+                    _adapterData.value = emptyList() // Atur LiveData ke daftar kosong jika respons tidak berhasil
                 }
             }
 
             override fun onFailure(call: Call<Responses>, t: Throwable) {
                 // Handle the failure here
+                _adapterData.value = emptyList() // Atur LiveData ke daftar kosong jika ada kesalahan
             }
         })
+    }
+
+    fun formatHeight(height: String?): String {
+        return "$height cm"
     }
 }
