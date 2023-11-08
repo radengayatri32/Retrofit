@@ -1,6 +1,8 @@
 package com.example.starapplication
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +11,7 @@ import com.example.starapplication.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: YourViewModel
+    private val adapter = Adapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(YourViewModel::class.java)
 
-        val adapter = Adapter()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
@@ -28,5 +30,26 @@ class MainActivity : AppCompatActivity() {
 
         // Fetch data from the API using LiveData
         viewModel.fetchData()
+
+        // Form Pencarian
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not needed here
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // When text changes, update the filter in the ViewModel
+                viewModel.filterData(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not needed here
+            }
+        })
+
+        // Observe the filtered data
+        viewModel.filteredData.observe(this) { filteredData ->
+            adapter.submitList(filteredData)
+        }
     }
 }

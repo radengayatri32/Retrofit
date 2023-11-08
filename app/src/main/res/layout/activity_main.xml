@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- Form Pencarian -->
+    <EditText
+        android:id="@+id/searchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cari berdasarkan nama"
+        android:padding="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     <!-- RecyclerView to display multiple items -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
